@@ -1,0 +1,24 @@
+on:
+  push:
+    branches: production
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+      - run: npm ci
+      - name: Bump version and push tag
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          npm version patch -m "Bump version to %s [skip ci]"
+          git push --tags
+      - uses: JS-DevTools/npm-publish@v3
+        with:
+          access: public
+          token: ${{ secrets.NPM_AUTH_TOKEN }}
