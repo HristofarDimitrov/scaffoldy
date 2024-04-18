@@ -12,7 +12,7 @@ jobs:
         with:
           node-version: "20"
       - run: npm ci
-      - name: Bump version and push tag
+      - name: Bump version
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
@@ -21,8 +21,7 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.PAT }}
-          repository: ${{ github.repository }}
-          force_with_lease: true
+          branch: ${{ github.ref }}
       - uses: JS-DevTools/npm-publish@v3
         with:
           access: public
