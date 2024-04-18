@@ -16,8 +16,9 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          npm version patch -m "Bump version to %s [skip ci]"
-          git push --tags
+          git push origin HEAD:main
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
       - uses: JS-DevTools/npm-publish@v3
         with:
           access: public
