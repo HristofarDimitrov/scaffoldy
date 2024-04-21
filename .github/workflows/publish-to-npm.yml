@@ -19,6 +19,7 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           npm version patch
+          git push --force-with-lease
       - name: Build
         run: npm run prepublishOnly
       - uses: stefanzweifel/git-auto-commit-action@v5
