@@ -14,17 +14,16 @@ jobs:
         with:
           node-version: "20"
       - run: npm ci
-      - name: Build
-        run: |
-          rm -rf dist
-          npm run build
       - name: Bump version
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           npm version patch
+      - name: Build
+        run: npm run prepublishOnly
       - uses: stefanzweifel/git-auto-commit-action@v5
       - uses: JS-DevTools/npm-publish@v3
         with:
           access: public
           token: ${{ secrets.NPM_AUTH_TOKEN }}
+          strategy: all
