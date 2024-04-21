@@ -4,17 +4,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.replicateTemplates = void 0;
-const fs_1 = __importDefault(require("fs"));
+const fs_1 = require("fs");
 const path_1 = __importDefault(require("path"));
 const shelljs_1 = __importDefault(require("shelljs"));
 const replicateTemplates = (templatePath, projectPath) => {
-    //Get template file names
-    let templateContentNames = fs_1.default.readdirSync(templatePath);
-    //filter out skip list
+    let templateContentNames = (0, fs_1.readdirSync)(templatePath);
     const filesToBeSkipped = ["node_modules", "build", "dist"];
     templateContentNames = templateContentNames.filter((name) => !filesToBeSkipped.includes(name));
-    if (!fs_1.default.existsSync(projectPath)) {
-        fs_1.default.mkdirSync(projectPath);
+    if (!(0, fs_1.existsSync)(projectPath)) {
+        (0, fs_1.mkdirSync)(projectPath);
     }
     else {
         console.error("Directory already exists. Choose another name");
@@ -23,21 +21,19 @@ const replicateTemplates = (templatePath, projectPath) => {
     templateContentNames.forEach((name) => {
         const originPath = path_1.default.join(templatePath, name);
         const destinationPath = path_1.default.join(projectPath, name);
-        const stats = fs_1.default.statSync(originPath);
+        const stats = (0, fs_1.statSync)(originPath);
         if (stats.isFile()) {
-            const content = fs_1.default.readFileSync(originPath, "utf8");
-            fs_1.default.writeFileSync(destinationPath, content);
+            const content = (0, fs_1.readFileSync)(originPath, "utf8");
+            (0, fs_1.writeFileSync)(destinationPath, content);
         }
         else if (stats.isDirectory()) {
             (0, exports.replicateTemplates)(originPath, destinationPath);
         }
     });
     if (templateContentNames.includes("package.json")) {
-        //Navigate to the new project directory
         shelljs_1.default.cd(projectPath);
-        //Run npm install
-        console.log("Running npm install");
-        shelljs_1.default.exec("npm install");
+        shelljs_1.default.exec("git init");
+        shelljs_1.default.exec("pnpm install");
     }
 };
 exports.replicateTemplates = replicateTemplates;
