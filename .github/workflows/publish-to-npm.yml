@@ -16,8 +16,8 @@ jobs:
       - run: npm ci
       - name: Build
         run: |
-        rm -rf dist
-        npm run build
+          rm -rf dist
+          npm run build
       - name: Bump version
         run: |
           git config --local user.email "action@github.com"
