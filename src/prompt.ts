@@ -23,6 +23,10 @@ const questions: PromptObject[] = [
         title: "React TypeScript TailwindCSS",
         value: "react-ts-tailwind",
       },
+      {
+        title: "Next.js TypeScript TailwindCSS",
+        value: "next-ts-tailwind",
+      },
     ],
   },
 ];
